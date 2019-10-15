@@ -58,6 +58,20 @@ body {
     height: 555px;
 }
 
+.chat-window {
+    max-width: 767px;
+}
+
+.chat-window > p {
+    font-size: 1.2rem;
+    margin-bottom: 3px;
+}
+
+.chat-window > p > em{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
 .chat-controls > form > input {
     width: 660px;
     height: 62px;
