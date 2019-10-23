@@ -4,32 +4,104 @@ const path = require('path');
 const PORT = 3000;
 
 app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.get('/api/messages', (req, res) => {
-    res.send('messages');
-    console.log('from messages');
+    let chats= [
+        {
+          "id": 1,
+          "name": "Ebony Vinson",
+          "text": "Officia velit mollit laborum amet nisi fugiat id est. "
+        },
+        {
+          "id": 2,
+          "name": "Hahn Wagner",
+          "text": "Exercitation deserunt tempor nostrud esse ad incididunt velit duis."
+        },
+        {
+          "id": 3,
+          "name": "Sampson Shelton",
+          "text": "Velit ad tempor cupidatat commodo Lorem tempor sit ad."
+        },
+        {
+          "id": 4,
+          "name": "Moses Kane",
+          "text": "Sunt deserunt proident velit ea occaecat dolor culpa."
+        },
+        {
+            "id": 5,
+            "name": "Berlin Smith",
+            "text": "Sunt deserunt proident velit ea occaecat dolor culpa."
+        }
+      ];
+    res.json(chats);
 });
 
 app.post('/api/messages', (req, res) => {
-    res.send('post messages');
-    console.log('from post messages');
+    res.json('message created');
 });
 
 app.get('/api/users', (req, res) => {
-    res.send('get users');
-    console.log('from users');
+    const users = [
+        {
+          "id": 1,
+          "name": "Ebony Vinson"
+        },
+        {
+          "id": 2,
+          "name": "Hahn Wagner"
+        },
+        {
+          "id": 3,
+          "name": "Sampson Shelton"
+        },
+        {
+          "id": 4,
+          "name": "Moses Kane"
+        },
+        {
+            "id": 5,
+            "name": "Berlin Smith",
+        }
+      ];
+    res.json(users);
 });
 
 app.post('/api/users', (req, res) => {
-    res.send('post uers');
-    console.log('from post users');
+    const n = req.body.username;
+    res.status(201);
+    res.json(`user ${n} was created`);
 });
 
-app.get('/api/users/{:id}', (req, res) => {
-    res.send(req.params.id);
+app.get('/api/users/:id', (req, res) => {
+    let users = [
+        {
+          "id": 1,
+          "name": "Ebony Vinson"
+        },
+        {
+          "id": 2,
+          "name": "Hahn Wagner"
+        },
+        {
+          "id": 3,
+          "name": "Sampson Shelton"
+        },
+        {
+          "id": 4,
+          "name": "Moses Kane"
+        },
+        {
+            "id": 5,
+            "name": "Berlin Smith",
+        }
+      ];
+      const user = users.filter(user => user.id === parseInt(req.params.id));
+    res.json(user);
 });
+
 app.listen(PORT, () => { return `Listening on port ${PORT}...`});
