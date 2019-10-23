@@ -5,8 +5,10 @@ class ChatSection extends Component {
 
     state = {
         currentUserText: '',
-        currentUserID: 'something',
-        currentUserName: 'Berlin S',
+        currentUserID: 'ljh',
+        currentUserName: 'Berlin Smith',
+        chats: null,
+        loading: true
     }
 
     onChange = (e) => {
@@ -16,23 +18,65 @@ class ChatSection extends Component {
     onSubmit = e => {
         e.preventDefault();
         console.log('Before: ', this.state.currentUserText);
-        this.setState(state => {
-            const chats = state.chats.concat({
-                "id": state.currentUserID,
-                "name": state.currentUserName,
-                "text": state.currentUserText
-              });
-
-            return {chats};
-        });
+        this.postChatMessage();
 
         this.setState({ currentUserText: ''});
     };
 
+    componentDidMount() {
+        this.getChatMessages();
+    }
+
+    getChatMessages = () => {
+        fetch('/api/messages')
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ chats: data, loading: false})
+        })
+        .catch(err => console.log('error:',err));
+    }
+
+    postChatMessage = () => {
+        fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": Math.random() * 3,
+                "name": this.state.currentUserName,
+                "text": this.state.currentUserText                  
+            })
+        })
+        .then(res => {
+            if (res.status === 200) {
+                this.getChatMessages()
+            }
+        });
+
+    }
+
     render() {
+       if(this.state.loading === false) {
         return (
             <div className="chat-section">
-                <ChatWindow chats={this.state.chats}/>
+            <ChatWindow chats={this.state.chats}/>
+                <div className="chat-controls">
+                    <form action="#" onSubmit={this.onSubmit}>
+                        <input  
+                            type="text" 
+                            name="text"
+                            onChange={this.onChange}
+                            value={this.state.currentUserText}
+                        />
+                        <button type="submit">SEND</button>
+                    </form>
+                </div>
+            </div>)
+       }else{
+        return (
+            <div className="chat-section">
+            <ChatWindow chats={this.state.chats} loading={this.state.loading} />
                 <div className="chat-controls">
                     <form action="#" onSubmit={this.onSubmit}>
                         <input  
@@ -46,6 +90,7 @@ class ChatSection extends Component {
                 </div>
             </div>
         )
+       }
     }
 }
 

@@ -11,37 +11,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/messages', (req, res) => {
-    let chats= [
-        {
-          "id": 1,
-          "name": "Ebony Vinson",
-          "text": "Officia velit mollit laborum amet nisi fugiat id est. "
-        },
-        {
-          "id": 2,
-          "name": "Hahn Wagner",
-          "text": "Exercitation deserunt tempor nostrud esse ad incididunt velit duis."
-        },
-        {
-          "id": 3,
-          "name": "Sampson Shelton",
-          "text": "Velit ad tempor cupidatat commodo Lorem tempor sit ad."
-        },
-        {
-          "id": 4,
-          "name": "Moses Kane",
-          "text": "Sunt deserunt proident velit ea occaecat dolor culpa."
-        },
-        {
-            "id": 5,
-            "name": "Berlin Smith",
-            "text": "Sunt deserunt proident velit ea occaecat dolor culpa."
-        }
-      ];
     res.json(chats);
 });
 
 app.post('/api/messages', (req, res) => {
+    console.log(req.body);
+    chats.push(req.body);
+    res.status(200);
+    console.log(chats);
     res.json('message created');
 });
 
@@ -106,3 +83,31 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 app.listen(PORT, () => { return `Listening on port ${PORT}...`});
+
+let chats= [
+    {
+      "id": 1,
+      "name": "Ebony Vinson",
+      "text": "Officia velit mollit laborum amet nisi fugiat id est. "
+    },
+    {
+      "id": 2,
+      "name": "Hahn Wagner",
+      "text": "Exercitation deserunt tempor nostrud esse ad incididunt velit duis."
+    },
+    {
+      "id": 3,
+      "name": "Sampson Shelton",
+      "text": "Velit ad tempor cupidatat commodo Lorem tempor sit ad."
+    },
+    {
+      "id": 4,
+      "name": "Moses Kane",
+      "text": "Sunt deserunt proident velit ea occaecat dolor culpa."
+    },
+    {
+        "id": 5,
+        "name": "Berlin Smith",
+        "text": "Sunt deserunt proident velit ea occaecat dolor culpa."
+    }
+  ];
