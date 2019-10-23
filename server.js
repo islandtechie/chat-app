@@ -18,7 +18,6 @@ app.post('/api/messages', (req, res) => {
     console.log(req.body);
     chats.push(req.body);
     res.status(200);
-    console.log(chats);
     res.json('message created');
 });
 

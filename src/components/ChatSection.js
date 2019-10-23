@@ -50,6 +50,7 @@ class ChatSection extends Component {
         })
         .then(res => {
             if (res.status === 200) {
+                console.log(res.status);
                 this.getChatMessages()
             }
         });
