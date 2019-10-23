@@ -9,7 +9,7 @@ function App() {
         <h1>Chatty!</h1>
         <div className="chat-container">
           <Users />
-          <ChatSection />
+         
         </div>
     </div>
   );

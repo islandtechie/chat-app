@@ -45,6 +45,15 @@ body {
     margin-bottom: 5px;
 }
 
+.users > ul > li{
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    list-style: none;
+}
+
+.users > ul > li:hover {
+    background-color: darkgrey;
+}
 
 .chat-section {
     flex-grow: 2;

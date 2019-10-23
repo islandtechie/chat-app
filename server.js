@@ -46,26 +46,27 @@ app.post('/api/messages', (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
+    console.log('hit');
     const users = [
         {
           "id": 1,
-          "name": "Ebony Vinson"
+          "username": "Ebony Vinson"
         },
         {
           "id": 2,
-          "name": "Hahn Wagner"
+          "username": "Hahn Wagner"
         },
         {
           "id": 3,
-          "name": "Sampson Shelton"
+          "username": "Sampson Shelton"
         },
         {
           "id": 4,
-          "name": "Moses Kane"
+          "username": "Moses Kane"
         },
         {
             "id": 5,
-            "name": "Berlin Smith",
+            "username": "Berlin Smith",
         }
       ];
     res.json(users);
