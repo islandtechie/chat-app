@@ -1,7 +1,12 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 3000;
+const { Client } = require('pg');
+
+
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
@@ -11,9 +16,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/messages', (req, res) => {
+    console.log(process.env.PGUSER);
     res.json(chats);
 });
-
 app.post('/api/messages', (req, res) => {
     console.log(req.body);
     chats.push(req.body);
@@ -22,7 +27,6 @@ app.post('/api/messages', (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
-    console.log('hit');
     const users = [
         {
           "id": 1,
@@ -55,6 +59,7 @@ app.post('/api/users', (req, res) => {
 });
 
 app.get('/api/users/:id', (req, res) => {
+    
     let users = [
         {
           "id": 1,
