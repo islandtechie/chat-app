@@ -24,7 +24,9 @@ app.get('/', (req, res) => {res.sendFile(path.join(__dirname, 'build', 'index.ht
 
 app.get('/api/messages', (req, res) => {dbService.getAllMessages(req, res, db)});
 app.post('/api/messages', (req, res) => {dbService.postMessage(req, res, db)});
-app.post('/api/users', (req, res) => {dbService.createUser(req, res, db)});
+app.post('/api/users', (req, res) => {
+  console.log(req.body);
+  dbService.createUser(req, res, db)});
 app.get('/api/users', (req, res) => {dbService.getAllUsers(req, res, db)});
 app.get('/api/users/:id', (req, res) => { dbService.getUser(req, res, db)});
 

@@ -13,7 +13,7 @@ function ChatWindow(props) {
             <div className="chat-window">
                 {props.chats.map(chat => (
                     <Line 
-                        key={chat.id} chat={chat}
+                        key={(chat.id /.418) * Math.random()} chat={chat}
                     />
                 ))}
             </div>

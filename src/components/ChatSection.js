@@ -5,7 +5,7 @@ class ChatSection extends Component {
 
     state = {
         currentUserText: '',
-        currentUserID: 1,
+        currentUserID: 8,
         currentUserName: 'Berlin Smith',
         chats: null,
         loading: true
@@ -29,6 +29,7 @@ class ChatSection extends Component {
         fetch('/api/messages')
         .then(res => res.json())
         .then(data => {
+            console.log(data);
             this.setState({ chats: data, loading: false})
         })
         .catch(err => console.log('error:',err));
