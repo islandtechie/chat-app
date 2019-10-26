@@ -17,8 +17,10 @@ class ChatSection extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        this.postChatMessage();
-        this.setState({ currentUserText: ''});
+        if (this.state.currentUserText !== '') {
+            this.postChatMessage();
+            this.setState({ currentUserText: ''});
+        }
     };
 
   componentDidMount() {

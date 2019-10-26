@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const path = require('path');
 const PORT = 3000;
 const dbService = require('./src/services/DBService');
@@ -28,4 +30,8 @@ app.post('/api/users', (req, res) => {dbService.createUser(req, res, db)});
 app.get('/api/users', (req, res) => {dbService.getAllUsers(req, res, db)});
 app.get('/api/users/:id', (req, res) => { dbService.getUser(req, res, db)});
 
-app.listen(PORT, () => { return `Listening on port ${PORT}...`});
+io.on('connection', function(socket){
+  console.log('a user connected');
+})
+
+http.listen(PORT, () => { return `Listening on port ${PORT}...`});
