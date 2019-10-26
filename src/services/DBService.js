@@ -2,7 +2,7 @@ const CREATE_USER = 'INSERT INTO users(username, sessionid, createddate) VALUES(
 const CREATE_USER_MESSAGE = 'INSERT INTO messages(userid, text, createddate) VALUES($1, $2, $3)';
 const GET_USER = 'SELECT * FROM users WHERE sessionid = $1';
 const GET_ALL_USERS = 'SELECT * FROM users';
-const GET_ALL_MESSAGES = 'SELECT users.id, users.username, messages.text, messages.createddate FROM messages LEFT JOIN users ON users.id = messages.userid';
+const GET_ALL_MESSAGES = 'SELECT users.username, users.id, users.sessionid, messages.text  FROM messages LEFT JOIN users ON users.id = messages.userid';
 
 const getAllMessages = (req, res, db) => {
   db.query(GET_ALL_MESSAGES)
@@ -11,6 +11,7 @@ const getAllMessages = (req, res, db) => {
 }
 
 const postMessage = (req, res, db) => {
+  console.log(req.body);
   db.query(CREATE_USER_MESSAGE, [req.body.id, req.body.text, new Date()])
   .then(item => {res.status(201).json()})
   .catch(err => res.status(400).json(err));

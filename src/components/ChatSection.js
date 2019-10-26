@@ -4,9 +4,9 @@ import ChatWindow from './ChatWindow';
 class ChatSection extends Component {
 
     state = {
+        currentUser: null,
         currentUserText: '',
-        currentUserID: 8,
-        currentUserName: 'Berlin Smith',
+        currentUserName: null,
         chats: null,
         loading: true
     }
@@ -21,38 +21,48 @@ class ChatSection extends Component {
         this.setState({ currentUserText: ''});
     };
 
-    componentDidMount() {
-        this.getChatMessages();
-    }
+  componentDidMount() {
+      this.fetchUser(window.localStorage.getItem('SESSION_ID'));
+      this.getChatMessages();
+  }
 
-    getChatMessages = () => {
-        fetch('/api/messages')
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            this.setState({ chats: data, loading: false})
+  fetchUser = (id) => {
+    fetch(`/api/users/${id}`)
+    .then(res => res.json())
+    .then(data => {
+        this.setState({ currentUser: data[0]})
+    })
+    .catch(err => console.log('error:',err));
+}
+
+  getChatMessages = () => {
+    fetch('/api/messages')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        this.setState({ chats: data, loading: false})
+    })
+    .catch(err => console.log('error:',err));
+}
+
+postChatMessage = () => {
+    fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "id" : this.state.currentUser.id,
+            "text": this.state.currentUserText                  
         })
-        .catch(err => console.log('error:',err));
-    }
+    })
+    .then(res => {
+        if (res.status === 201) {
+            this.getChatMessages()
+        }
+    });
 
-    postChatMessage = () => {
-        fetch('/api/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "id" : this.state.currentUserID,
-                "text": this.state.currentUserText                  
-            })
-        })
-        .then(res => {
-            if (res.status === 201) {
-                this.getChatMessages()
-            }
-        });
-
-    }
+}
 
     render() {
        if(this.state.loading === false) {

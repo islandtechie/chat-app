@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { thisExpression } from '@babel/types';
 const uuidv4 = require('uuid/v4');
 
 
@@ -28,8 +27,7 @@ class Users extends Component {
         fetch(`/api/users/${id}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            this.setState({ currentUser: data})
+            this.setState({ currentUser: data[0]})
             this.fetchUsers();
         })
         .catch(err => console.log('error:',err));
@@ -39,14 +37,12 @@ class Users extends Component {
         fetch('/api/users')
         .then(res => res.json())
         .then(data => {
-            console.log('did i make it');
             this.setState({ users: data, loading: false})
         })
         .catch(err => console.log('error:',err));
     }
 
     createUser = (id) => {
-        console.log('usercreating');
         fetch('/api/users', {
             method: 'POST',
             headers: {
@@ -80,7 +76,7 @@ class Users extends Component {
                     <h3>Users</h3>
                     <ul>
                         {this.state.users.map(user => (
-                            this.state.sessionid === user.id ? <li key={user.id}><strong>{user.username} (YOU)</strong> </li> : <li key={user.id}>{user.username}</li>  
+                            this.state.currentUser.id === user.id ? <li key={user.id}><strong>{user.username} (YOU)</strong> </li> : <li key={user.id}>{user.username}</li>  
                         ))}
                     </ul>
                 </div>
