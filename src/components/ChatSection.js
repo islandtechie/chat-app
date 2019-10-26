@@ -17,13 +17,12 @@ class ChatSection extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        if (this.state.currentUserText !== '') {
-            this.postChatMessage();
-            this.setState({ currentUserText: ''});
-        }
+        this.postChatMessage();
+        this.setState({ currentUserText: ''});
     };
 
   componentDidMount() {
+      console.log(window.localStorage.getItem('SESSION_ID'));
       this.fetchUser(window.localStorage.getItem('SESSION_ID'));
       this.getChatMessages();
   }

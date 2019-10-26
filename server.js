@@ -32,6 +32,8 @@ app.get('/api/users/:id', (req, res) => { dbService.getUser(req, res, db)});
 
 io.on('connection', function(socket){
   console.log('a user connected');
-})
+});
 
-http.listen(PORT, () => { return `Listening on port ${PORT}...`});
+
+
+app.listen(PORT, () => { return `Listening on port ${PORT}...`});
