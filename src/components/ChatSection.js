@@ -5,7 +5,7 @@ class ChatSection extends Component {
 
     state = {
         currentUserText: '',
-        currentUserID: 'ljh',
+        currentUserID: 1,
         currentUserName: 'Berlin Smith',
         chats: null,
         loading: true
@@ -17,9 +17,7 @@ class ChatSection extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        console.log('Before: ', this.state.currentUserText);
         this.postChatMessage();
-
         this.setState({ currentUserText: ''});
     };
 
@@ -43,14 +41,12 @@ class ChatSection extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "id": Math.random() * 3,
-                "name": this.state.currentUserName,
+                "id" : this.state.currentUserID,
                 "text": this.state.currentUserText                  
             })
         })
         .then(res => {
-            if (res.status === 200) {
-                console.log(res.status);
+            if (res.status === 201) {
                 this.getChatMessages()
             }
         });
