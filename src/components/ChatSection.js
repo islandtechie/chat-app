@@ -39,7 +39,6 @@ class ChatSection extends Component {
     fetch('/api/messages')
     .then(res => res.json())
     .then(data => {
-        console.log(data);
         this.setState({ chats: data, loading: false})
     })
     .catch(err => console.log('error:',err));
