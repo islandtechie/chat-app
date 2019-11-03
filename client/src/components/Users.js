@@ -3,7 +3,10 @@ import React from 'react';
 function Users() {
     return (
         <div className="users">
-            <p>Users</p>
+        <h3>Users</h3>
+        <ul>
+            <p>Users23456</p>
+        </ul>
         </div>
     )
 }
