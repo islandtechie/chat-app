@@ -4,7 +4,7 @@
   "description": "Portfolio Chat App",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "concurrently 'nodemon server.js' 'cd client && npm run watch'"
   },
   "repository": {
     "type": "git",
