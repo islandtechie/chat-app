@@ -1,0 +1,19 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "Portfolio Chat App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/islandtechie/chat-app.git"
+  },
+  "author": "Berlin Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/islandtechie/chat-app/issues"
+  },
+  "homepage": "https://github.com/islandtechie/chat-app#readme"
+}
