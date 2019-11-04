@@ -1,46 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class ChatSection extends Component {
-    state = {
-        currentUserText: '',
-        sessionID: null,
-        users: null,
-        loading: true,
-    }
-    componentDidMount() {
+ChatSection = ({onChange, onSubmit, text}) => {
 
-    }
-
-    onChange = (e) => {
-        this.setState({ currentUserText: e.target.value });
-    }
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.setState({ currentUserText: ''});
-    };
-
-    
-
-    render() {
         return (
             <div className="chat-section">
                 <div className="chat-window">
                 </div>
                 <div className="chat-controls">
-                    <form action="#" onSubmit={this.onSubmit}>
+                    <form action="#" onSubmit={onSubmit}>
                     <input  
                         type="text" 
                         name="text"
-                        onChange={this.onChange}
-                        value={this.state.currentUserText}
+                        onChange={onChange}
+                        value={text}
                     />
                         <button type="submit">SEND</button>
                     </form>
                 </div>
             </div>
         )
-    }
 }
 
 export default ChatSection

@@ -1,7 +1,7 @@
 import React from 'react';
-
-function Users({users, loading}) {
+ Users = ({users, loading, cu}) => {
     {
+
         if (loading === true) {
             return (
                 <div className="users">
