@@ -16,12 +16,12 @@ const ChatSection = ({onChange, onSubmit, text, loading, messages}) => {
                 </div>
                 <div className="chat-controls">
                     <form action="#" onSubmit={onSubmit}>
-                    <input  
-                        type="text" 
-                        name="text"
-                        onChange={onChange}
-                        value={text}
-                    />
+                        <input  
+                            type="text" 
+                            name="text"
+                            onChange={onChange}
+                            value={text}
+                        />
                         <button type="submit">SEND</button>
                     </form>
                 </div>

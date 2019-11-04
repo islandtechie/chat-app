@@ -16,7 +16,7 @@ app.use(express.json());
 app.get('/', (req, res) => {res.sendFile(path.join(__dirname, 'build', 'index.html'))});
 
 app.get('/api/messages', (req, res) => {dbService.getAllMessages(req, res)});
-app.post('/api/messages', (req, res) => {dbService.postMessage(req, res)});
+app.post('/api/messages', (req, res) => {dbService.postMessage(req, res);});
 app.post('/api/users', (req, res) => {dbService.createUser(req, res)});
 app.get('/api/users', (req, res) => {dbService.getAllUsers(req, res)});
 app.get('/api/users/:id', (req, res) => { dbService.getUser(req, res)});

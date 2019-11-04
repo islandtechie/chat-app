@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Users from './Users';
-import ChatSection from './ChatSection';
 const uuidv4 = require('uuid/v4');
 
 export class ChatContainer extends Component {
@@ -21,7 +19,7 @@ export class ChatContainer extends Component {
         e.preventDefault();
         this.postChatMessage();
         this.setState({ currentUserText: ''});
-    };
+    }
 
     componentDidMount() {
         this.checkUserSession();
@@ -70,6 +68,15 @@ export class ChatContainer extends Component {
         .catch(err => console.log(err));
     }
 
+      getChatMessages = () => {
+    fetch('/api/messages')
+    .then(res => res.json())
+    .then(data => {
+        this.setState({ messages: data})
+    })
+    .catch(err => console.log('error:',err));
+}
+
     postChatMessage = () => {
         fetch('/api/messages', {
             method: 'POST',
@@ -88,19 +95,65 @@ export class ChatContainer extends Component {
     }
 
     render() {
-        return (
-            <div className="chat-container">
-                <Users users={this.state.users} loading={this.state.loading} cu={this.state.currentUser} />
-                <ChatSection 
-                    onChange={this.onChange}
-                    onSubmit={this.onSubmit}
-                    text={this.state.currentUserText}
-                    messages={this.state.messages}
-                    loading={this.state.loading}
-                />
-            </div>
-        )
+        if (this.state.loading === false) {
+            return (
+                <div className="chat-container">
+                    <div className="users">
+                        <h3>Users</h3>
+                            <ul>
+                                {this.state.users.map(user => (<li key={user.id}>{user.username}</li>))}
+                            </ul>
+                    </div>
+                    <div className="chat-section">
+                        <div className="chat-window">
+                            <ul>
+                                {this.state.messages.map(message => (
+                                    <li key={message.id}> 
+                                    {   message.username}: {message.text}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="chat-controls">
+                            <form action="#" onSubmit={this.onSubmit}>
+                                <input  
+                                type="text" 
+                                name="text"
+                                onChange={this.onChange}
+                                value={this.text}
+                                />
+                                <button type="submit">SEND</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )
+        }else{
+            return (
+                <div className="chat-container">
+                    <div className="users">
+                        <h3>Users</h3>
+                            <p>Loading Users</p>
+                    </div>
+                    <div className="chat-section">
+                        <div className="chat-window">
+                            <p>Loading Messages</p>
+                        </div>
+                        <div className="chat-controls">
+                            <form action="#" onSubmit={this.onSubmit}>
+                                <input  
+                                type="text" 
+                                name="text"
+                                onChange={this.onChange}
+                                value={this.text}
+                                />
+                                <button type="submit">SEND</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
     }
 }
-
 export default ChatContainer;
