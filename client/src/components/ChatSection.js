@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 
 export class ChatSection extends Component {
     state = {
-        currentUserText: ''
+        currentUserText: '',
+        sessionID: null,
+        users: null,
+        loading: true,
     }
+    componentDidMount() {
+
+    }
+
     onChange = (e) => {
         this.setState({ currentUserText: e.target.value });
     }
@@ -12,6 +19,8 @@ export class ChatSection extends Component {
         e.preventDefault();
         this.setState({ currentUserText: ''});
     };
+
+    
 
     render() {
         return (
