@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 const uuidv4 = require('uuid/v4');
+const socket = require('socket.io-client');
 
 export class ChatContainer extends Component {
     state = {
@@ -25,6 +26,8 @@ export class ChatContainer extends Component {
 
     componentDidMount() {
         this.checkUserSession();
+        socket.connect();
+        socket.emit()
     }
 
     checkUserSession = () => {
