@@ -5,7 +5,7 @@ const CREATE_USER = 'INSERT INTO users(username, sessionid, createddate) VALUES(
 const CREATE_USER_MESSAGE = 'INSERT INTO messages(userid, text, createddate) VALUES($1, $2, $3)';
 const GET_USER = 'SELECT * FROM users WHERE sessionid = $1';
 const GET_ALL_USERS = 'SELECT * FROM users';
-const GET_ALL_MESSAGES = 'SELECT users.username, users.id, users.sessionid, messages.text  FROM messages LEFT JOIN users ON users.id = messages.userid';
+const GET_ALL_MESSAGES = 'SELECT users.username, users.sessionid, messages.id, messages.text  FROM messages LEFT JOIN users ON users.id = messages.userid';
 
 let db;
 
