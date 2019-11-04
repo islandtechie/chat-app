@@ -17,8 +17,10 @@ export class ChatContainer extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.postChatMessage();
-        this.setState({ currentUserText: ''});
+        if (this.state.currentUserText !== '') {
+            this.postChatMessage();
+            this.setState({ currentUserText: ''});
+        }
     }
 
     componentDidMount() {
@@ -68,13 +70,13 @@ export class ChatContainer extends Component {
         .catch(err => console.log(err));
     }
 
-      getChatMessages = () => {
-    fetch('/api/messages')
-    .then(res => res.json())
-    .then(data => {
-        this.setState({ messages: data})
-    })
-    .catch(err => console.log('error:',err));
+    getChatMessages = () => {
+        fetch('/api/messages')
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ messages: data})
+        })
+        .catch(err => console.log('error:',err));
 }
 
     postChatMessage = () => {
@@ -120,7 +122,7 @@ export class ChatContainer extends Component {
                                 type="text" 
                                 name="text"
                                 onChange={this.onChange}
-                                value={this.text}
+                                value={this.state.currentUserText}
                                 />
                                 <button type="submit">SEND</button>
                             </form>
@@ -140,12 +142,14 @@ export class ChatContainer extends Component {
                             <p>Loading Messages</p>
                         </div>
                         <div className="chat-controls">
-                            <form action="#" onSubmit={this.onSubmit}>
+                            <form action="#">
                                 <input  
                                 type="text" 
                                 name="text"
                                 onChange={this.onChange}
-                                value={this.text}
+                                value={this.state.currentUserText}
+
+                                disabled
                                 />
                                 <button type="submit">SEND</button>
                             </form>

@@ -21,4 +21,8 @@ app.post('/api/users', (req, res) => {dbService.createUser(req, res)});
 app.get('/api/users', (req, res) => {dbService.getAllUsers(req, res)});
 app.get('/api/users/:id', (req, res) => { dbService.getUser(req, res)});
 
+io.on('connection', function(socket){
+    console.log('a user connected');
+});
+
 http.listen(PORT, () => console.log(`${PORT}`));
