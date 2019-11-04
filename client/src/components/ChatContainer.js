@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 const uuidv4 = require('uuid/v4');
-const socket = require('socket.io-client');
+const socket = require('socket.io-client')('http://localhost:5000');
 
 export class ChatContainer extends Component {
     state = {
@@ -21,13 +21,15 @@ export class ChatContainer extends Component {
         if (this.state.currentUserText !== '') {
             this.postChatMessage();
             this.setState({ currentUserText: ''});
+            socket.emit('message-sent');
         }
     }
 
     componentDidMount() {
         this.checkUserSession();
-        socket.connect();
-        socket.emit()
+        socket.on('update', (data) => {
+            this.getChatMessages();
+        })
     }
 
     checkUserSession = () => {
@@ -91,11 +93,6 @@ export class ChatContainer extends Component {
                 "text": this.state.currentUserText                  
             })
         })
-        .then(res => {
-            if (res.status === 201) {
-                this.getChatMessages()
-            }
-        });
     
     }
 

@@ -23,6 +23,11 @@ app.get('/api/users/:id', (req, res) => { dbService.getUser(req, res)});
 
 io.on('connection', function(socket){
     console.log('a user connected');
+
+    socket.on('message-sent', () => {
+        console.log('new message sent');
+        io.emit('update');
+    })
 });
 
 http.listen(PORT, () => console.log(`${PORT}`));

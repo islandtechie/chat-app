@@ -26,6 +26,8 @@ const getAllMessages = (req, res) => {
     .then(messages => res.json(messages.rows))
     .catch(e => console.error(e.stack));
   }
+
+  
   
   const postMessage = (req, res) => {
     db.query(CREATE_USER_MESSAGE, [req.body.id, req.body.text, new Date()])
