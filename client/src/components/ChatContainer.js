@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 const uuidv4 = require('uuid/v4');
 const socket = require('socket.io-client')('http://localhost:5000');
 
+/* TODO:
+    1. Completed New User Event with Socket.io
+    2. Make Current User be the first in the list
+    3. Fixed Chat window scrolling
+*/
+
 export class ChatContainer extends Component {
     state = {
         users: null,
