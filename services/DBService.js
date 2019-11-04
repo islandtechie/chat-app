@@ -11,11 +11,11 @@ let db;
 
 const init = () => {
     db = new Client({
-        user: 'postgres',
-        host: 'localhost',
-        database: 'chat_app',
-        password: 'biggtits',
-        port: 5432,
+      user: process.env.PGUSER,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
+      password: process.env.PGPASSWORD,
+      port: process.env.PGPORT,
       });
 
       db.connect().then(() => console.log('CONNECTED'));
@@ -28,7 +28,6 @@ const getAllMessages = (req, res) => {
   }
   
   const postMessage = (req, res) => {
-    console.log(req.body);
     db.query(CREATE_USER_MESSAGE, [req.body.id, req.body.text, new Date()])
     .then(item => {res.status(201).json()})
     .catch(err => res.status(400).json(err));
