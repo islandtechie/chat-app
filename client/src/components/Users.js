@@ -1,5 +1,6 @@
 import React from 'react';
- Users = ({users, loading, cu}) => {
+
+ const Users = ({users, loading}) => {
     {
 
         if (loading === true) {

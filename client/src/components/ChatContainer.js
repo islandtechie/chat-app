@@ -6,6 +6,7 @@ const uuidv4 = require('uuid/v4');
 export class ChatContainer extends Component {
     state = {
         users: null,
+        messages: null,
         loading: true,
         sessionID: null,
         currentUser: null,
@@ -18,6 +19,7 @@ export class ChatContainer extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.postChatMessage();
         this.setState({ currentUserText: ''});
     };
 
@@ -26,12 +28,24 @@ export class ChatContainer extends Component {
     }
 
     checkUserSession = () => {
-        const session = window.localStorage.getItem('SESSION_ID');
+        const id = window.localStorage.getItem('SESSION_ID');
 
-        if (session === null) {
+        if (id === null) {
             this.createUser(uuidv4());
         }else{
-            this.fetchUser(session);  
+            Promise.all([
+                fetch(`/api/users/${id}`).then(data => data.json()),
+                fetch('/api/users').then(data => data.json()),
+                fetch('/api/messages').then(data => data.json())
+            ]).then(([user, users, messages]) => {
+                this.setState({
+                    currentUser: user[0],
+                    users: users,
+                    messages: messages,
+                    loading: false
+                })
+            })
+            .catch(err => console.log(err))
         }
     }
 
@@ -56,21 +70,21 @@ export class ChatContainer extends Component {
         .catch(err => console.log(err));
     }
 
-    fetchUser = (id) => {
-        fetch(`/api/users/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            this.setState({ currentUser: data[0]})
-            this.fetchUsers();
+    postChatMessage = () => {
+        fetch('/api/messages', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "id" : this.state.currentUser.id,
+                "text": this.state.currentUserText                  
+            })
         })
-        .catch(err => console.log('error:',err));
-    }
-
-    fetchUsers = () => {
-        fetch('/api/users')
-        .then(res => res.json())
-        .then(data => {this.setState({ users: data, loading: false});})
-        .catch(err => console.log('error:',err));
+        .then(res => {
+            if (res.status === 201) {
+                this.getChatMessages()
+            }
+        });
+    
     }
 
     render() {
@@ -81,6 +95,8 @@ export class ChatContainer extends Component {
                     onChange={this.onChange}
                     onSubmit={this.onSubmit}
                     text={this.state.currentUserText}
+                    messages={this.state.messages}
+                    loading={this.state.loading}
                 />
             </div>
         )
