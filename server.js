@@ -26,8 +26,13 @@ io.on('connection', function(socket){
 
     socket.on('message-sent', () => {
         console.log('new message sent');
-        io.emit('update');
-    })
+        io.emit('update-messages');
+    });
+
+    socket.on('new-user', () => {
+        console.log('new user created');
+        io.emit('update-users');
+    });
 });
 
 http.listen(PORT, () => console.log(`${PORT}`));

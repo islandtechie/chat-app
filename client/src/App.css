@@ -44,6 +44,11 @@ body {
   margin-bottom: 5px;
 }
 
+.users > ul {
+  overflow-y: scroll;
+  height: 575px;
+}
+
 .users > ul > li{
   font-size: 1.1rem;
   margin-bottom: 5px;

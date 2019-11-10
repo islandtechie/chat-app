@@ -5,17 +5,20 @@ const socket = require('socket.io-client')('http://localhost:5000');
 /* TODO:
     1. Completed New User Event with Socket.io
     2. Make Current User be the first in the list
-    3. Fixed Chat window scrolling
 */
-
 export class ChatContainer extends Component {
+    constructor(props) {
+        super(props);
+      }
+
     state = {
         users: null,
         messages: null,
         loading: true,
         sessionID: null,
         currentUser: null,
-        currentUserText:''
+        currentUserText:'',
+        messagesEnd: null
     }
 
     onChange = (e) => {
@@ -28,16 +31,25 @@ export class ChatContainer extends Component {
             this.postChatMessage();
             this.setState({ currentUserText: ''});
             socket.emit('message-sent');
+            socket.emit('');
         }
     }
 
     componentDidMount() {
         this.checkUserSession();
-        socket.on('update', (data) => {
+        socket.on('update-messages', () => {
             this.getChatMessages();
-        })
+        });
+
+        socket.on('update-users', () => {
+            //this.fetchUsers();
+        });
+        this.scrollToBottom();
     }
 
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
     checkUserSession = () => {
         const id = window.localStorage.getItem('SESSION_ID');
 
@@ -76,10 +88,31 @@ export class ChatContainer extends Component {
                 window.localStorage.setItem('SESSION_ID', id);
                 this.setState({ sessionid: window.localStorage.getItem('SESSION_ID')});
                 this.fetchUser(this.state.sessionid);
+                this.fetchUsers();
+                socket.emit('new-user');
             }
         })
         .catch(err => console.log(err));
     }
+
+    fetchUser = (id) => {
+        fetch(`/api/users/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ currentUser: data[0]})
+        })
+        .catch(err => console.log('error:',err));
+    }
+
+    fetchUsers = () => {
+        fetch('/api/users')
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ users: data, loading: false})
+        })
+        .catch(err => console.log('error:',err));
+    }
+
 
     getChatMessages = () => {
         fetch('/api/messages')
@@ -102,6 +135,10 @@ export class ChatContainer extends Component {
     
     }
 
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" })
+    }
+
     render() {
         if (this.state.loading === false) {
             return (
@@ -113,14 +150,15 @@ export class ChatContainer extends Component {
                             </ul>
                     </div>
                     <div className="chat-section">
-                        <div className="chat-window">
-                            <ul>
-                                {this.state.messages.map(message => (
-                                    <li key={message.id}> 
-                                    {   message.username}: {message.text}
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="chat-window" ref={this.window}>
+                            {this.state.messages.map(message => (
+                                <p key={message.id}> 
+                                {   message.username}: {message.text}
+                                </p>
+                            ))}
+                            <div style={{ float:"left", clear: "both" }}
+                            ref={(el) => { this.messagesEnd = el; }}>
+                            </div>
                         </div>
                         <div className="chat-controls">
                             <form action="#" onSubmit={this.onSubmit}>
@@ -146,6 +184,10 @@ export class ChatContainer extends Component {
                     <div className="chat-section">
                         <div className="chat-window">
                             <p>Loading Messages</p>
+
+                            <div style={{ float:"left", clear: "both" }}
+                            ref={(el) => { this.messagesEnd = el; }}>
+                            </div>
                         </div>
                         <div className="chat-controls">
                             <form action="#">
